@@ -1,7 +1,5 @@
 #!/bin/bash
 
-mysql -u root -e "CREATE DATABASE IF NOT EXISTS User;"
+mysql -h localhost -u root -e "CREATE DATABASE IF NOT EXISTS db_marco;"
 
 sleep 1
-
-mysql -u root -e "SHOW DATABASES;"
