@@ -1,5 +1,7 @@
-const connection = require('./createConnection')
+const array = [
+    require('./createConnection')
+]
 
-module.exports = [
-    connection,
-];
+for (const elem of array) {
+    await elem;
+}
