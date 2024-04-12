@@ -1,37 +1,25 @@
 const mysql = require('mysql2/promise')
 
 class Database {
+
     constructor(db_host, db_port, db_user, db_password, db_name) {
-        this.db_host = db_host;
-        this.db_port = db_port;
-        this.db_user = db_user;
-        this.db_password = db_password;
-        this.db_name = db_name;
-    }
-
-    options = {
-        host: this.db_host,
-        port: this.db_port,
-        user: this.db_user,
-        password: this.db_password,
-        database: this.db_name
-    }
-
-    createConnection = async () => {
-        return await mysql.createConnection(this.options);
+        this.options = {
+            host: db_host,
+            port: db_port,
+            user: db_user,
+            password: db_password,
+            database: db_name
+        }
     }
 
     readAll = async (tableName) => {
-        const conn = await this.createConnection();
+        const conn = await mysql.createConnection(this.options);
         const result = await conn.query(`SELECT * FROM ${tableName}`);
         await conn.end();
         return result;
-
     }
-
-
 }
 
-const singletonInstance = new Database();
+const singletonInstance = new Database(process.env.DB_HOST, process.env.DB_PORT, process.env.DB_USER, process.env.DB_PASSWORD, process.env.DB_NAME);
 
 module.exports = Object.freeze(singletonInstance);
