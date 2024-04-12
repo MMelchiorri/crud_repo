@@ -5,7 +5,7 @@ services:
     image: node:20
     container_name: app-container
     ports:
-      - "3000:3000"
+      - "3001:3001"
     working_dir: /usr/app/
     volumes:
       - ./src:/usr/app/
