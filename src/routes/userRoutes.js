@@ -14,6 +14,6 @@ module.exports = [
     {
         path: '/users',
         method: 'post',
-        controller: rest.
+        controller: rest.insert,
     }
 ]
