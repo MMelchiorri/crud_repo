@@ -14,10 +14,40 @@ class Database {
     }
 
     readAll = async (tableName) => {
-        const conn = await mysql.createConnection(this.options);
-        const result = await conn.query(`SELECT * FROM ${tableName}`);
-        await conn.end();
+        const pool = await mysql.createPool(this.options);
+        const conn = await pool.getConnection();
+        const [result, fields] = await conn.query(`SELECT * FROM ${tableName}`);
+        await pool.releaseConnection(conn);
         return result;
+    }
+
+    readByEmail = async (tableName, email) => {
+         const pool = await mysql.createPool(this.options);
+         const conn = await pool.getConnection();
+         const [result, fields] = await conn.query(`SELECT * FROM ${tableName} where ${tableName}.email='${email}'`);
+        await pool.releaseConnection(conn);
+        return result;
+    }
+
+    insert = async (tableName, values) => {
+        const pool = await mysql.createPool(this.options);
+        const conn = await pool.getConnection();
+        console.log(`INSERT INTO ${tableName} columns (?) values (?)`, values);
+        const [result, fields] = await conn.query(`INSERT INTO ${tableName} columns (?) values (?)`, values);
+        await pool.releaseConnection(conn);
+        return result;
+    }
+
+    update = async (tableName, email) => {
+
+    }
+
+    deleteAll = async (tableName) => {
+
+    }
+
+    deleteUser = async (tableName, email) => {
+
     }
 }
 
