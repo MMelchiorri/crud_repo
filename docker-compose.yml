@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   app:
+    build: .
     image: node:20
     container_name: app-container
     ports:
@@ -12,14 +13,15 @@ services:
     command: npm run dev
     depends_on:
       - db
+
   db:
     image: mysql
     container_name: db-container
-    command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=caching_sha2_password
     environment:
       MYSQL_ROOT_PASSWORD: example
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
       MYSQL_ALLOW_EMPTY_PASSWORD: false
     ports:
       - "3306:3306"
@@ -27,4 +29,5 @@ services:
       - 3306
     volumes:
       - ./data:/var/lib/mysql
+
 

@@ -5,10 +5,11 @@ class Database {
     constructor(db_host, db_port, db_user, db_password, db_name) {
         this.options = {
             host: db_host,
-            port: db_port,
             user: db_user,
+            database: db_name,
             password: db_password,
-            database: db_name
+            waitForConnections: true,
+            connectionLimit: 10,
         }
     }
 

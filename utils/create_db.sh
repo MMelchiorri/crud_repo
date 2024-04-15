@@ -1,15 +1,11 @@
 #!/bin/bash
 
-mySqlCommand=$(cat <<EOF
-CREATE DATABASE IF NOT EXISTS db_marco;
-USE db_marco;
-CREATE TABLE IF NOT EXISTS User (
-  id VARCHAR(255) PRIMARY KEY NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  surname VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL
-);
-EOF
-)
+docker exec -i db-container mysql -uroot -pexample <<EOF
 
-echo "$mySqlCommand" | mysql -h localhost -u root
+CREATE DATABASE IF NOT EXISTS db_marco;
+
+use db_marco;
+
+create table if not exists User (name varchar(255), surname varchar(255), email varchar(255), password varchar(255));
+
+EOF
