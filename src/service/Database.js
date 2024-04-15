@@ -32,8 +32,8 @@ class Database {
     insert = async (tableName, values) => {
         const pool = await mysql.createPool(this.options);
         const conn = await pool.getConnection();
-        console.log(`INSERT INTO ${tableName} columns (?) values (?)`, values);
-        const [result, fields] = await conn.query(`INSERT INTO ${tableName} columns (?) values (?)`, values);
+        console.log(`INSERT INTO ${tableName} columns (${Object.keys(values).join(', ')}) values (${Object.values(values).join(', ')})`);
+        const [result, fields] = await conn.query(`INSERT INTO ${tableName} columns (${Object.keys(values).join(', ')}) values (${Object.values(values).join(', ')})`);
         await pool.releaseConnection(conn);
         return result;
     }
