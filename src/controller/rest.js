@@ -5,9 +5,13 @@ exports.read = async (req, res) => {
 }
 
 exports.readByEmail = async (req, res) => {
-    res.send({ value: await db('user').readByEmail(req.params.email)});
+    res.send({ value: await db('user').readByEmail(req.params.email) });
 }
 
 exports.insert = async (req, res) => {
-    res.send({ value: await db('user').insert(req.body)});
+    res.send({ value: await db('user').insert(req.body) });
+}
+
+exports.update = async (req, res) => {
+    res.send({ value: await db('user').update(req.body) })
 }

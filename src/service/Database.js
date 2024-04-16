@@ -14,32 +14,29 @@ class Database {
     }
 
     readAll = async (tableName) => {
-        const pool = await mysql.createPool(this.options);
-        const conn = await pool.getConnection();
-        const [result, fields] = await conn.query(`SELECT * FROM ${tableName}`);
-        await pool.releaseConnection(conn);
-        return result;
-    }
-
-    readByEmail = async (tableName, email) => {
-         const pool = await mysql.createPool(this.options);
-         const conn = await pool.getConnection();
-         const [result, fields] = await conn.query(`SELECT * FROM ${tableName} where ${tableName}.email='${email}'`);
-        await pool.releaseConnection(conn);
+        const conn = await mysql.createConnection(this.options);
+        const result = await conn.query(`SELECT * FROM ${tableName}`);
+        await conn.end();
         return result;
     }
 
     insert = async (tableName, values) => {
         const pool = await mysql.createPool(this.options);
         const conn = await pool.getConnection();
-        console.log(`INSERT INTO ${tableName} columns (${Object.keys(values).join(', ')}) values (${Object.values(values).join(', ')})`);
-        const [result, fields] = await conn.query(`INSERT INTO ${tableName} columns (${Object.keys(values).join(', ')}) values (${Object.values(values).join(', ')})`);
-        await pool.releaseConnection(conn);
+        const sql = `INSERT INTO ${tableName} (${Object.keys(values).join(', ')}) VALUES (${ Object.keys(values).map(() => '?').join(', ') })`;
+        const sqlValues = Object.values(values);
+        const [result, fields] = await conn.query(sql, sqlValues);
+        pool.releaseConnection(conn);
         return result;
     }
 
-    update = async (tableName, email) => {
-
+    update = async (tableName, values) => {
+        const pool = await mysql.createPool(this.options);
+        const conn = await pool.getConnection();
+        const sql = `UPDATE ${tableName} SET ${Object.entries(values).map(([key, value]) => `${key} = ?`).join(', ')} WHERE ${tableName}.email = ?`;
+        const [result, fields] = await conn.query(sql, [...Object.values(values), values?.email]);
+        pool.releaseConnection(conn);
+        return result
     }
 
     deleteAll = async (tableName) => {

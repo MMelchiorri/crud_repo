@@ -15,5 +15,10 @@ module.exports = [
         path: '/users',
         method: 'post',
         controller: rest.insert,
-    }
+    },
+    {
+        path: '/users',
+        method: 'put',
+        controller: rest.update,
+    },
 ]
