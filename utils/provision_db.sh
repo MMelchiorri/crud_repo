@@ -10,10 +10,9 @@ docker run --rm \
   \
   -e AWS_ACCESS_KEY_ID=root \
   -e AWS_SECRET_ACCESS_KEY=root \
-  -e AWS_DEFAULT_REGION=eu-west-1  \
+  -e AWS_DEFAULT_REGION=eu-west-1 \
   -e AWS_ENDPOINT_URL=http://sls-db-container:8000 \
   \
   --entrypoint="sh" \
-  infrastructureascode/aws-cli:latest /project/create_db.sh
-
-
+  --network="crud_project_default" \
+    infrastructureascode/aws-cli:latest /project/create_db.sh

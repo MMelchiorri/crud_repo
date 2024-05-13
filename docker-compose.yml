@@ -18,13 +18,13 @@ services:
       - db
     command: npm run dev
 
-
   db:
-    image: "amazon/dynamodb-local:latest"
     container_name: sls-db-container
-    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /usr/share/dynamodb"
+    image: amazon/dynamodb-local:latest
     ports:
       - "8070:8000"
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath /usr/share/dynamodb
     volumes:
       - ./docker/dynamodb:/usr/share/dynamodb
+
 
