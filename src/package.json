@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=dev serverless offline start"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +17,6 @@
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.2",
     "serverless-dotenv-plugin": "^6.0.0",
-    "serverless-http": "^3.2.0",
     "uuid": "^9.0.1",
     "yup": "^1.4.0"
   },
