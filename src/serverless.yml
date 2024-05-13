@@ -1,0 +1,62 @@
+frameworkVersion: '3'
+service: crud-service
+
+provider:
+  runtime: nodejs20.x
+  name: aws
+  region: ${opt:region, "eu-west-1"}
+  stage: ${opt:stage, "dev"}
+  memorySize: 128
+  timeout: 10
+  environment:
+    REGION: ${self:provider.region}
+    STAGE: ${self:provider.stage}
+    BASE_URL: ${file(./serverless.vars.${self:provider.stage}.yml):base-url}
+    URL_PREFIX: ${file(./serverless.vars.${self:provider.stage}.yml):url-prefix}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:Query
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - ${file(./serverless.vars.${self:provider.stage}.yml):table-user-arn}
+        - ${file(./serverless.vars.${self:provider.stage}.yml):table-user-arn}/index/email-index
+
+package:
+  exclude:
+    - docker/**
+    - package-lock.json
+    - package.json
+    - data/**
+    - env.dev
+    - env.dev.dist
+    - .gitignore
+    - serverless.vars.dev
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+functions:
+  api:
+    name: ${self:service}-api
+    handler: handlers/http.api
+    events:
+      - httpApi:
+          method: ANY
+          path: /{proxy+}
+
+custom:
+  serverless-offline:
+    host: 0.0.0.0
+    noStripTrailingSlashInUrl: true
+    noPrependStageInUrl: true
+
+
+
+
+

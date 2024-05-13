@@ -4,30 +4,27 @@ services:
   app:
     build: .
     image: node:20
-    container_name: app-container
+    container_name: sls-app-container
     ports:
-      - "3001:3001"
-    working_dir: /usr/app/
+      - "3070:3001"
+    environment:
+      - AWS_ACCESS_KEY=root
+      - AWS_SECRET_ACCESS_KEY=root
+      - AWS_REGION:eu-west-1
+    working_dir: /project
     volumes:
-      - ./src:/usr/app/
-    command: npm run dev
+      - ./src:/project
     depends_on:
       - db
+    command: npm run dev
+
 
   db:
-    image: mysql
-    container_name: db-container
-    command: --default-authentication-plugin=caching_sha2_password
-    environment:
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_ALLOW_EMPTY_PASSWORD: false
+    image: "amazon/dynamodb-local:latest"
+    container_name: sls-db-container
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /usr/share/dynamodb"
     ports:
-      - "3306:3306"
-    expose:
-      - 3306
+      - "8070:8000"
     volumes:
-      - ./data:/var/lib/mysql
-
+      - ./docker/dynamodb:/usr/share/dynamodb
 

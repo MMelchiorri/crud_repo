@@ -1,0 +1,4 @@
+base-url: 'http://localhost:5570/user'
+url-prefix: '/user'
+
+table-user-arn: arn:aws:dynamodb:${self:provider.region}:*:table/User
