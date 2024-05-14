@@ -14,6 +14,7 @@ docker run --rm \
   -e AWS_ENDPOINT_URL=http://sls-db-container:8000 \
   \
   --entrypoint="sh" \
-  infrastructureascode/aws-cli:latest /project/create_db.sh
+  --network="crud_project_default" \
+    infrastructureascode/aws-cli:latest /project/create_db.sh
 
 
