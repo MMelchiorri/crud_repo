@@ -17,11 +17,11 @@ services:
     depends_on:
       - db
     command: npm run dev
-
   db:
     container_name: sls-db-container
     image: amazon/dynamodb-local:latest
     ports:
+      - "8070:8000"
       - "8070:8000"
     command: -jar DynamoDBLocal.jar -sharedDb -dbPath /usr/share/dynamodb
     volumes:

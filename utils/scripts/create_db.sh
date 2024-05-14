@@ -3,7 +3,7 @@
 AWS_ENDPOINT_URL=${AWS_ENDPOINT_URL:-http://localhost:8000}
 
 # Delete the existing User table
-aws dynamodb --endpoint-url ${AWS_ENDPOINT_URL} delete-table \
+aws dynamodb --endpoint-url "${AWS_ENDPOINT_URL}" delete-table \
   --table-name User
 
 # Wait for the table deletion to complete
